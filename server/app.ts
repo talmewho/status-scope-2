@@ -1,22 +1,25 @@
-import "react-router";
-import { createRequestHandler } from "@react-router/express";
-import express from "express";
+import 'react-router';
+import { createRequestHandler } from '@react-router/express';
+import type express from 'express';
+import webSocketAdapter from 'express-ws';
+import statusSocketHandler from './api/status';
 
-declare module "react-router" {
+declare module 'react-router' {
   interface AppLoadContext {
-    VALUE_FROM_EXPRESS: string;
+    VALUE_FROM_EXPRESS: string
   }
 }
 
-export const app = express();
+const webSocketPath = '/api/status';
 
-app.use(
-  createRequestHandler({
-    build: () => import("virtual:react-router/server-build"),
-    getLoadContext() {
-      return {
-        VALUE_FROM_EXPRESS: "Hello from Express",
-      };
-    },
-  }),
-);
+export function enhanceExpress(expressApplication: express.Express) {
+  const { app } = webSocketAdapter(expressApplication);
+
+  app.ws(webSocketPath, statusSocketHandler);
+
+  app.use(
+    createRequestHandler({
+      build: () => import('virtual:react-router/server-build'),
+    }),
+  );
+}
