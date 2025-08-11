@@ -1,3 +1,4 @@
+import type { ERegion } from './regions';
 
 type TRecentlyBlockedKey = [string, number, string];
 type TTopKey = [string, number];
@@ -46,3 +47,10 @@ export type TStatusData = {
   server_issue: null | Record<string, unknown>;
   version: string;
 };
+
+export type TUpdatedStatusData = {
+  data: TStatusData;
+  lastUpdated: number;
+};
+
+export type TAllStatusData = Partial<Record<ERegion, TUpdatedStatusData>>;

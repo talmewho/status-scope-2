@@ -5,10 +5,12 @@ import QuickStats from '../QuickStats';
 import WorkerData from '../WorkerData';
 
 type TDetails = {
+  lastUpdated: number;
   data: TStatusData;
 };
 
 function Details({
+  lastUpdated,
   data: {
     region,
     status,
@@ -28,6 +30,8 @@ function Details({
 
   return (
     <section className={`${styles.wrapper} ${hasIssuesClassName}`}>
+      <div className={styles.lastUpdated}>{`(Last updated - ${new Date(lastUpdated).toUTCString()})`}</div>
+
       <h2 className={styles.title}>
         {`${region} (running version ${version}) - `}
         <span className={hasIssues ? styles.warning : ''}>{status}</span>

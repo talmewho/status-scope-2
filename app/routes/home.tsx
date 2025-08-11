@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import apiPaths from '../../common/api-paths';
 import Details from '~/components/Details';
 import Regions from '~/components/Regions';
-import type { TStatusData } from 'common/backend.types';
+import type { TUpdatedStatusData } from 'common/backend.types';
 
 export function meta() {
   return [
@@ -12,7 +12,7 @@ export function meta() {
 }
 
 export default function Home() {
-  const [status, setStatus] = useState<TStatusData[]>([]);
+  const [status, setStatus] = useState<TUpdatedStatusData[]>([]);
 
   useEffect(() => {
     const socket = new WebSocket(apiPaths.status);
@@ -42,7 +42,9 @@ export default function Home() {
   return (
     <>
       <Regions>
-        {status.map(data => <Details data={data} key={data.region} />)}
+        {status.map(({ data, lastUpdated }) => (
+<Details data={data} lastUpdated={lastUpdated} key={data.region} />
+        ))}
       </Regions>
     </>
   );
