@@ -20,4 +20,5 @@ export default {
   statusUrlTemplate,
   minimalFetchInterval: getNumber('MINIMAL_FETCH_INTERVAL', 1000 * 60),
   fetchInterval: getNumber('FETCH_INTERVAL', 1000 * 60 * 5),
+  shouldServeMockStatus: process.env.SERVE_MOCK_STATUS === 'true',
 };
