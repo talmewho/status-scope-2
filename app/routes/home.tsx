@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <>
       <Regions>
-        {status.map(data => <Details data={data} />)}
+        {status.map(data => <Details data={data} key={data.region} />)}
       </Regions>
     </>
   );

@@ -4,12 +4,44 @@
   color: #ffffff;
   width: 30%;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.fullDetails {
+  flex: 1 1 auto;
+}
+
+.hasIssues {
+  border: 1px solid #ff0000;
 }
 
 .title {
   text-align: center;
+  flex: 0 0 auto;
 }
 
 .warning {
   color: #ff0000;
+}
+
+.workers {
+  margin-bottom: 1rem;
+}
+
+.worker {
+  margin-bottom: 0.5rem;
+}
+
+.issues {
+  border: 1px solid #ffd700;
+  justify-self: center;
+  padding: 10px;
+  border-radius: 7px;
+  flex: 0 0 auto;
+  text-align: center;
+}
+
+.hasServerIssues {
+  text-align: initial;
 }

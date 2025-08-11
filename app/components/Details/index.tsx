@@ -2,6 +2,7 @@ import type { TStatusData } from 'common/backend.types';
 import styles from './Details.module.css';
 import Tags from '../Tags';
 import QuickStats from '../QuickStats';
+import WorkerData from '../WorkerData';
 
 type TDetails = {
   data: TStatusData;
@@ -21,31 +22,35 @@ function Details({
     version,
   },
 }: TDetails) {
+  const hasIssues = serverIssue ?? status !== 'ok';
+  const hasIssuesClassName = hasIssues ? styles.hasIssues : '';
+  const hasServerIssuesClassName = serverIssue ? styles.hasServerIssues : '';
+
   return (
-    <section className={styles.wrapper}>
+    <section className={`${styles.wrapper} ${hasIssuesClassName}`}>
       <h2 className={styles.title}>
         {`${region} (running version ${version}) - `}
-        {serverIssue ? <span className={styles.warning}>issues</span> : status}
+        <span className={hasIssues ? styles.warning : ''}>{status}</span>
         {strict && ' 🔑'}
       </h2>
 
-      <Tags services={services} roles={roles} />
+      <div className={styles.fullDetails}>
+        <Tags services={services} roles={roles} />
 
-      <QuickStats stats={stats} />
+        <QuickStats stats={stats} />
 
-      <div>
-        Workers
-        {' '}
-        {stats.server.workers.map(([workerName, workerData]) => (
-          <details key={workerName}>
-            <summary>{workerName}</summary>
-            {JSON.stringify(workerData, undefined, ' ')}
-          </details>
-        ))}
+        <div className={styles.workers}>
+          {stats.server.workers.map(([workerName, workerData]) => (
+            <details className={styles.worker} key={workerName}>
+              <summary>{`👷 ${workerName}`}</summary>
+              <WorkerData worker={workerData} />
+            </details>
+          ))}
+        </div>
       </div>
 
-      <div>
-        {!serverIssue ? '✔ No server issues reported' : JSON.stringify(serverIssue)}
+      <div className={`${styles.issues} ${hasServerIssuesClassName}`}>
+        {!serverIssue ? '✔ No server issues reported' : `⚠️ ${JSON.stringify(serverIssue)}`}
       </div>
     </section>
   );
