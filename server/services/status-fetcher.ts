@@ -1,5 +1,6 @@
 import { EventEmitter } from 'node:events';
 import { ERegion } from '../../common/regions';
+import type { TStatusData } from 'common/backend.types';
 
 const regions: ERegion[] = [
   ERegion.UsEast,
@@ -10,12 +11,6 @@ const regions: ERegion[] = [
   ERegion.ApSoutheast,
 ];
 
-type TStatus = {
-  region: ERegion;
-  status: string;
-  lastUpdated: string;
-};
-
 export class StatusFetcher extends EventEmitter {
   private statusFetcherSchedulerId: ReturnType<typeof setInterval>;
 
@@ -23,7 +18,7 @@ export class StatusFetcher extends EventEmitter {
 
   private readonly fetchInterval: number;
 
-  private statusData: Partial<Record<ERegion, TStatus>> = {};
+  private statusData: Partial<Record<ERegion, TStatusData>> = {};
 
   constructor(urlTemplate: string, fetchInterval: number) {
     super();
@@ -39,7 +34,7 @@ export class StatusFetcher extends EventEmitter {
     return this.apiUrlTemplate.replace('{region}', region);
   }
 
-  private async fetchStatus(region: ERegion): Promise<TStatus> {
+  private async fetchStatus(region: ERegion): Promise<TStatusData> {
     try {
       const response = await fetch(this.getUrl(region));
       if (!response.ok) {
@@ -53,7 +48,7 @@ export class StatusFetcher extends EventEmitter {
     }
   }
 
-  async fetchAllStatuses(): Promise<Partial<Record<ERegion, TStatus>>> {
+  async fetchAllStatuses(): Promise<Partial<Record<ERegion, TStatusData>>> {
     const promises = regions.map(region => this.fetchStatus(region));
     const results = await Promise.allSettled(promises);
     results.forEach((result, index) => {
