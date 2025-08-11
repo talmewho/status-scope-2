@@ -1,16 +1,19 @@
+import type { TStatusData } from 'common/backend.types';
 import Express from 'express';
 import fileSystem from 'node:fs';
 
-let mock: null | Record<string, string> = null;
-const mockPath = import.meta.dirname + '../../../mocks/status-mock.json';
+let mocks: null | TStatusData[] = null;
+const mockPaths = [
+  import.meta.dirname + '../../../mocks/status-mock.json',
+  import.meta.dirname + '../../../mocks/status-mock-with-issues.json',
+  import.meta.dirname + '../../../mocks/status-mock-with-non-ok-status.json',
+];
 
 function getMock() {
-  if (!mock) {
-    mock = JSON.parse(
-      fileSystem.readFileSync(mockPath).toString('utf-8'),
-    );
+  if (!mocks) {
+    mocks = mockPaths.map(path => JSON.parse(fileSystem.readFileSync(path).toString('utf-8')));
   }
-  mock!.region = '';
+  const mock = { ...mocks[Math.round(Math.random() * 2)] };
   return mock!;
 }
 
@@ -22,7 +25,7 @@ function handleMockStatus(request: Express.Request, response: Express.Response) 
   }
   const data = getMock();
   data.region = region as string;
-  response.json(mock);
+  response.json(data);
   console.log(`Mocked status was called with ${region}`);
 }
 
