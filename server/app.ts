@@ -12,7 +12,7 @@ export function enhanceExpress(expressApplication: express.Express) {
 
   app.ws(apiPaths.status, handleStatusSocket);
 
-  if (configuration.shouldServeMockStatus) {
+  if (!configuration.isProduction && configuration.shouldServeMockStatus) {
     app.get(apiPaths.mockStatus, handleMockStatus);
   }
 
