@@ -16,25 +16,23 @@ type TStatus = {
   lastUpdated: string
 };
 
-// const minimalFetchInterval = process.env.MINIMAL_FETCH_INTERVAL ?? 1000 * 60;
-const fetchInterval = process.env.FETCH_INTERVAL
-  ? parseInt(process.env.FETCH_INTERVAL, 10)
-  : 1000 * 60 * 5;
-
 export class StatusFetcher extends EventEmitter {
   private statusFetcherSchedulerId: ReturnType<typeof setInterval>;
 
-  private apiUrlTemplate: string = '';
+  private readonly apiUrlTemplate: string;
+
+  private readonly fetchInterval: number;
 
   private statusData: Partial<Record<ERegion, TStatus>> = {};
 
-  constructor(urlTemplate: string) {
+  constructor(urlTemplate: string, fetchInterval: number) {
     super();
     this.apiUrlTemplate = urlTemplate;
+    this.fetchInterval = fetchInterval;
 
     this.statusFetcherSchedulerId = setInterval(async () => {
       this.emit('data', await this.fetchAllStatuses());
-    }, fetchInterval);
+    }, this.fetchInterval);
   }
 
   private getUrl(region: ERegion): string {
