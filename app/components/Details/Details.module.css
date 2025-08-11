@@ -1,0 +1,15 @@
+.wrapper {
+  border-radius: 5px;
+  background-color: #4e4343;
+  color: #ffffff;
+  width: 30%;
+  padding: 1rem;
+}
+
+.title {
+  text-align: center;
+}
+
+.warning {
+  color: #ff0000;
+}

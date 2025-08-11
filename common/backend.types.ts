@@ -23,7 +23,7 @@ type TServerStats = {
   timers: number;
 };
 
-type TStats = {
+export type TStats = {
   servers_count: number;
   online: number;
   session: number;

@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import apiPaths from '../../common/api-paths';
+import Details from '~/components/Details';
+import Regions from '~/components/Regions';
+import type { TStatusData } from 'common/backend.types';
 
 export function meta() {
   return [
@@ -9,7 +12,7 @@ export function meta() {
 }
 
 export default function Home() {
-  const [status, setStatus] = useState({});
+  const [status, setStatus] = useState<TStatusData[]>([]);
 
   useEffect(() => {
     const socket = new WebSocket(apiPaths.status);
@@ -20,7 +23,7 @@ export default function Home() {
 
     socket.addEventListener('message', (event) => {
       console.log('Message from server:', JSON.parse(event.data));
-      setStatus(JSON.parse(event.data));
+      setStatus(Object.values(JSON.parse(event.data)));
     });
 
     socket.addEventListener('close', () => {
@@ -36,5 +39,11 @@ export default function Home() {
     };
   }, []);
 
-  return <div>{JSON.stringify(status)}</div>;
+  return (
+    <>
+      <Regions>
+        {status.map(data => <Details data={data} />)}
+      </Regions>
+    </>
+  );
 }

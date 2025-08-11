@@ -1,0 +1,16 @@
+.tag {
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  margin: 0.25rem 0.25rem 1rem;
+  display: inline-block;
+}
+
+.roleTag {
+  background-color: #abcbcb;
+  color: #000000;
+}
+
+.serviceTag {
+  background-color: #ffe4c4;
+  color: #000000;
+}
