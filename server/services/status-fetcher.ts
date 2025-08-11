@@ -11,9 +11,9 @@ const regions: ERegion[] = [
 ];
 
 type TStatus = {
-  region: ERegion
-  status: string
-  lastUpdated: string
+  region: ERegion;
+  status: string;
+  lastUpdated: string;
 };
 
 export class StatusFetcher extends EventEmitter {

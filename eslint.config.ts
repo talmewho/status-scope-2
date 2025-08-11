@@ -26,12 +26,22 @@ export default tseslint.config(
   },
   {
     files: ['./**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    plugins: { js, '@stylistic': stylistic, '@typescript-eslint': tseslint.plugin },
     rules: {
       'semi': ['error', 'always'],
       '@stylistic/semi': ['error', 'always'],
       '@typescript-eslint/parameter-properties': 'error',
-      'indent': ['error', 2],
       '@stylistic/indent': ['error', 2],
+      '@stylistic/member-delimiter-style': ['error', {
+        multiline: {
+          delimiter: 'semi',
+          requireLast: true,
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: false,
+        },
+      }],
     },
   },
   {
