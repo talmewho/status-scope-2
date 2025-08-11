@@ -1,4 +1,3 @@
-import { Welcome } from '../welcome/welcome';
 import { useEffect, useState } from 'react';
 import apiPaths from '../../common/api-paths';
 
@@ -37,5 +36,5 @@ export default function Home() {
     };
   }, []);
 
-  return <Welcome message={JSON.stringify(status)} />;
+  return <div>{JSON.stringify(status)}</div>;
 }
