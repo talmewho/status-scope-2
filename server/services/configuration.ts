@@ -2,10 +2,10 @@ function getNumber(key: string, defaultValue: number): number {
   const value = process.env[key];
   if (value) {
     const numericValue = parseInt(value, 10);
-    if (isNaN(numericValue)) {
-      console.log(`The ${key} environmental variable value is not a number. Instead, got ${value}`);
+    if (!isNaN(numericValue)) {
       return numericValue;
     }
+    console.log(`The ${key} environmental variable value is not a number. Instead, got ${value}`);
   }
   return defaultValue;
 }
