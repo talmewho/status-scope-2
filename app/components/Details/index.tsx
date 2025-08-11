@@ -34,6 +34,10 @@ function Details({
         {strict && ' 🔑'}
       </h2>
 
+      {hasIssues && (
+        <div className={styles.issueNotification}>We seem to be experiencing some issues here.</div>
+      )}
+
       <div className={styles.fullDetails}>
         <Tags services={services} roles={roles} />
 

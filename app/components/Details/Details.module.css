@@ -8,21 +8,26 @@
   flex-direction: column;
 }
 
-.fullDetails {
-  flex: 1 1 auto;
-}
-
 .hasIssues {
   border: 1px solid #ff0000;
 }
 
 .title {
   text-align: center;
-  flex: 0 0 auto;
 }
 
 .warning {
   color: #ff0000;
+}
+
+.issueNotification {
+  border: 1px solid red;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
+.fullDetails {
+  flex: 1 1 auto;
 }
 
 .workers {
@@ -38,7 +43,6 @@
   justify-self: center;
   padding: 10px;
   border-radius: 7px;
-  flex: 0 0 auto;
   text-align: center;
 }
 

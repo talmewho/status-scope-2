@@ -8,8 +8,10 @@ type TEmojiStat = {
 };
 
 function EmojiStat({ title, children, isOverloaded }: TEmojiStat) {
+  const isOverloadedClassName = isOverloaded ? styles.isOverloaded : '';
+
   return (
-    <span className={styles.wrapper} title={title}>
+    <span className={`${styles.wrapper} ${isOverloadedClassName}`} title={title}>
       {children}
       {' '}
       {isOverloaded && '⚠️'}
