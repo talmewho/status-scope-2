@@ -1,25 +1,36 @@
+import type { TAllStatusData } from 'common/backend.types';
 import type expressWs from 'express-ws';
-import configuration from 'server/services/configuration';
-import { StatusFetcher } from 'server/services/status-fetcher';
+import statusFetcher from 'server/services/status-fetcher';
 import { prepareSocket } from 'server/services/websocket';
 
-const handleStatusSocket: expressWs.WebsocketRequestHandler = async (webSocket) => {
-  const fetcher = new StatusFetcher(
-    configuration.statusUrlTemplate,
-    configuration.fetchInterval,
-  );
+const handleStatusSocket: expressWs.WebsocketRequestHandler = async (websocket) => {
+  prepareSocket(websocket);
 
-  prepareSocket(webSocket);
+  function unsubscribe() {
+    statusFetcher.unsubscribe(send);
+  }
 
-  webSocket.on('close', () => {
-    fetcher.terminate();
+  function send(data: TAllStatusData) {
+    try {
+      websocket.send(JSON.stringify(data));
+    }
+    catch (error) {
+      console.error('Could not send a status update', error);
+      unsubscribe();
+      websocket.close();
+    }
+  }
+
+  websocket.on('error', () => {
+    unsubscribe();
+    websocket.close();
   });
 
-  fetcher.on('data', (data) => {
-    webSocket.send(JSON.stringify(data));
+  websocket.on('close', () => {
+    unsubscribe();
   });
 
-  webSocket.send(JSON.stringify(await fetcher.fetchAllStatuses()));
+  statusFetcher.subscribe(send);
 };
 
 export default handleStatusSocket;
