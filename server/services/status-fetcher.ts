@@ -1,5 +1,5 @@
 import { EventEmitter } from 'node:events';
-import { ERegion } from '../../common/regions';
+import { ERegion } from 'common/regions';
 import type { TAllStatusData, TStatusData } from 'common/backend.types';
 
 const regions: ERegion[] = [
