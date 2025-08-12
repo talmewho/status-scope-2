@@ -1,4 +1,4 @@
-# Status-Scope
+# StatusScope
 
 To run it locally against a real API (change the URL here) -
 
@@ -20,3 +20,5 @@ https://yodelling-karissa-talmewho-673087a7.koyeb.app/
 To make this production-grade, I would utilise a caching server, like Redis and utilise something like an orchestrator that can pass events as there could be multiple instances of the server running. This ensures the fetching happens only periodically and the target server is never overloaded by this, regardless of how many instances there are.
 
 On the purely technical side, I would improve the configuration to make sure the typecheck does not fail and the IDE stops showing squiggly lines in tests.
+
+And I would have definitely switched to a better template, like Next.js, but that was too resource-intensive for free card-less hosting services.
