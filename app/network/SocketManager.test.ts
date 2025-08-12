@@ -132,7 +132,6 @@ describe('SocketManager', () => {
   });
 
   it('does not call notifyFailed when the client closes it', () => {
-    const dataTimeout = 3000;
     jest.useFakeTimers();
     const notifyFailed = jest.fn();
     const manager = new SocketManager('/', { notify: jest.fn(), notifyFailed });
