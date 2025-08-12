@@ -16,7 +16,7 @@ export default function Home() {
   const [status, setStatus] = useState<TUpdatedStatusData[] | undefined>(undefined);
 
   useEffect(() => {
-    const { close } = getStatusNotifications(data => setStatus(Object.values(data)));
+    const close = getStatusNotifications(data => setStatus(Object.values(data)));
 
     return close;
   }, []);

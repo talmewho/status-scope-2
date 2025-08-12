@@ -1,13 +1,6 @@
-export function connectSocket<T>(url: string, notify: (data: T) => void) {
-  const socket = new WebSocket(url);
+import { SocketManager, type TSocketManagerOptions } from './socket';
 
-  socket.addEventListener('message', (event) => {
-    notify(JSON.parse(event.data));
-  });
-
-  return {
-    close() {
-      socket.close();
-    },
-  };
+export function connectSocket<T>(url: string, options: TSocketManagerOptions<T>): () => void {
+  const socketManager = new SocketManager(url, options);
+  return socketManager.close;
 }
