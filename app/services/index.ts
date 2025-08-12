@@ -46,7 +46,7 @@ export const getStatusNotifications = (
 
   const options = {
     notify: handleNotification,
-    notifyFailed: notifyFailed ?? fail,
+    notifyFailed: notifyFailed,
     dataTimeout,
   };
   const closeSocket = connectSocket(apiPaths.status, options);
