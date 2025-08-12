@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import apiPaths from '../../common/api-paths';
 import Details from '~/components/Details';
 import Regions from '~/components/Regions';
 import type { TUpdatedStatusData } from 'common/backend.types';
 import Loader from '~/components/Loader';
+import { getStatusNotifications } from '~/services';
 
 export function meta() {
   return [
@@ -16,28 +16,9 @@ export default function Home() {
   const [status, setStatus] = useState<TUpdatedStatusData[] | undefined>(undefined);
 
   useEffect(() => {
-    const socket = new WebSocket(apiPaths.status);
+    const { close } = getStatusNotifications(data => setStatus(Object.values(data)));
 
-    socket.addEventListener('open', () => {
-      console.log('WebSocket connection established');
-    });
-
-    socket.addEventListener('message', (event) => {
-      console.log('Message from server:', JSON.parse(event.data));
-      setStatus(Object.values(JSON.parse(event.data)));
-    });
-
-    socket.addEventListener('close', () => {
-      console.log('WebSocket connection closed');
-    });
-
-    socket.addEventListener('error', (error) => {
-      console.error('WebSocket error:', error);
-    });
-
-    return () => {
-      socket.close();
-    };
+    return close;
   }, []);
 
   if (status === undefined) {
