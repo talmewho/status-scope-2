@@ -19,7 +19,7 @@ export class SocketManager<T> {
   private pongExpectancyTimer: ReturnType<typeof setTimeout> | undefined;
 
   private readonly dataTimeout: number | undefined;
-  private readonly notifyFailed: () => void;
+  private readonly notifyFailed: (messageOrEvent?: string | Event) => void;
   private readonly notify: (data: T) => void;
 
   constructor(url: string, { notify, notifyFailed, dataTimeout }: TSocketManagerOptions<T>) {
@@ -45,11 +45,11 @@ export class SocketManager<T> {
       return;
     }
 
-    this.fail();
+    this.fail('Socket closed not by the client');
   };
 
-  private handleError = () => {
-    this.fail();
+  private handleError = (event: Event) => {
+    this.fail(event);
   };
 
   private handleMessage = ({ data }: MessageEvent) => {
@@ -69,7 +69,7 @@ export class SocketManager<T> {
   private initialise(url: string) {
     this.socket = this.createSocket(url);
     if (!this.socket) {
-      this.fail();
+      this.fail('Failed to create socket');
 
       return {
         close,
@@ -77,7 +77,7 @@ export class SocketManager<T> {
     }
 
     this.activationTimeoutTimer = setTimeout(() => {
-      this.fail();
+      this.fail('Failed to activate socket');
     }, activationTimeout);
 
     this.socket.addEventListener('open', this.handleOpen);
@@ -99,22 +99,22 @@ export class SocketManager<T> {
   }
 
   private stopTimers = () => {
-    if (this.pingTimer) {
-      clearInterval(this.pingTimer);
+    function stopTimer(timer: ReturnType<typeof setTimeout> | undefined) {
+      if (timer) {
+        clearTimeout(timer);
+      }
     }
 
-    if (this.pongExpectancyTimer) {
-      clearTimeout(this.pongExpectancyTimer);
-    }
-
-    if (this.dataTimeoutTimer) {
-      clearTimeout(this.dataTimeoutTimer);
-    }
+    stopTimer(this.activationTimeoutTimer);
+    stopTimer(this.pingTimer);
+    stopTimer(this.pongExpectancyTimer);
+    stopTimer(this.dataTimeoutTimer);
   };
 
-  private fail = () => {
+  private fail = (messageOrEvent: string | Event) => {
+    console.error(messageOrEvent);
     this.close();
-    this.notifyFailed();
+    this.notifyFailed(messageOrEvent);
   };
 
   private startPinging = () => {
@@ -131,7 +131,7 @@ export class SocketManager<T> {
 
   private expectPong = () => {
     this.pongExpectancyTimer = setTimeout(() => {
-      this.fail();
+      this.fail('Failed to receive pong');
     }, pongTimeout);
   };
 
@@ -145,7 +145,7 @@ export class SocketManager<T> {
     }
 
     this.dataTimeoutTimer = setTimeout(() => {
-      this.fail();
+      this.fail(`Failed to receive data after ${this.dataTimeout} ms`);
     }, this.dataTimeout);
   };
 
