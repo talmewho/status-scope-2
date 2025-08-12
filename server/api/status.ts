@@ -1,6 +1,7 @@
 import type expressWs from 'express-ws';
 import configuration from 'server/services/configuration';
 import { StatusFetcher } from 'server/services/status-fetcher';
+import { prepareSocket } from 'server/services/websocket';
 
 const handleStatusSocket: expressWs.WebsocketRequestHandler = async (webSocket) => {
   const fetcher = new StatusFetcher(
@@ -8,11 +9,7 @@ const handleStatusSocket: expressWs.WebsocketRequestHandler = async (webSocket) 
     configuration.fetchInterval,
   );
 
-  webSocket.on('message', (data) => {
-    if (data.toString('utf-8') === 'ping') {
-      webSocket.send('pong');
-    }
-  });
+  prepareSocket(webSocket);
 
   webSocket.on('close', () => {
     fetcher.terminate();
