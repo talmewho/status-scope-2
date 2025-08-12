@@ -1,0 +1,8 @@
+.container {
+  justify-self: center;
+}
+
+.loader {
+  margin-top: 2rem;
+  width: 30vw;
+}
