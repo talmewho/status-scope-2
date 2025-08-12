@@ -3,7 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type { JestConfigWithTsJest } from 'ts-jest';
+import { type JestConfigWithTsJest } from 'ts-jest';
 
 const config: JestConfigWithTsJest = {
   // Automatically clear mock calls, instances, contexts and results before every test
@@ -29,11 +29,16 @@ const config: JestConfigWithTsJest = {
       'ts-jest',
       {
         useESM: true,
+        isolatedModules: true,
         tsconfig: 'tsconfig.test.json',
       },
     ],
   },
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+  },
 
+  setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
 };
 
 export default config;

@@ -8,6 +8,10 @@
     "server/**/*",
     "common/**/*"
   ],
+  "exclude": [
+    "**/*.test.ts*",
+    "mocks/**/*.ts*"
+  ],
   "compilerOptions": {
     "composite": true,
     "strict": true,

@@ -31,7 +31,7 @@ export type TStats = {
   server: TServerStats;
 };
 
-export type TServices = Record<string, string>;
+export type TServices = Record<string, boolean>;
 
 type TResults = {
   services: TServices;
@@ -44,7 +44,7 @@ export type TStatusData = {
   roles: string[];
   results: TResults;
   strict: boolean;
-  server_issue: null | Record<string, unknown>;
+  server_issue: null | string | Record<string, unknown>;
   version: string;
 };
 

@@ -1,0 +1,137 @@
+import type { TStatusData } from '../common/backend.types';
+
+export const mock = {
+  "status": "ok",
+  "region": "us-east",
+  "roles": [
+    "socket"
+  ],
+  "results": {
+    "services": {
+      "redis": true,
+      "database": true
+    },
+    "stats": {
+      "servers_count": 9,
+      "online": 38879,
+      "session": 52,
+      "server": {
+        "cpus": 2,
+        "active_connections": 5360,
+        "wait_time": 1521,
+        "workers": [
+          [
+            "requests:pageviews",
+            {
+              "wait_time": 0,
+              "workers": 0,
+              "waiting": 0,
+              "idle": 0,
+              "time_to_return": 0,
+              "recently_blocked_keys": [],
+              "top_keys": []
+            }
+          ],
+          [
+            "io",
+            {
+              "wait_time": 1521,
+              "workers": 2977,
+              "waiting": 14,
+              "idle": 297,
+              "time_to_return": 285761,
+              "recently_blocked_keys": [
+                [
+                  "6Gk21KLVt8",
+                  3,
+                  "2025-08-08T19:06:19.253Z"
+                ],
+                [
+                  "3FG7RD4yF6",
+                  444,
+                  "2025-08-08T19:06:20.210Z"
+                ]
+              ],
+              "top_keys": [
+                [
+                  "3FG7RD4yF6",
+                  0.13063233623627413
+                ],
+                [
+                  "Bvy5aLQrQE",
+                  0.042029534267322984
+                ],
+                [
+                  "rMccHqnmWV",
+                  0.049602423324498296
+                ],
+                [
+                  "R599wGTUEe",
+                  0.04392275653161681
+                ],
+                [
+                  "6Gk21KLVt8",
+                  0.1442635365391897
+                ]
+              ]
+            }
+          ],
+          [
+            "requests:unsupported-users",
+            {
+              "wait_time": 0,
+              "workers": 0,
+              "waiting": 0,
+              "idle": 0,
+              "time_to_return": 0,
+              "recently_blocked_keys": [],
+              "top_keys": []
+            }
+          ],
+          [
+            "recording-workers",
+            {
+              "wait_time": 0,
+              "workers": 10,
+              "waiting": 0,
+              "idle": 10,
+              "time_to_return": 0,
+              "recently_blocked_keys": [],
+              "top_keys": []
+            }
+          ]
+        ],
+        "cpu_load": 0.58,
+        "timers": 104
+      }
+    }
+  },
+  "strict": false,
+  "server_issue": null,
+  "version": "2025.7.8"
+} as TStatusData;
+
+const mockWithOverloadedWaitTime = {
+  ...mock,
+  "results": {
+    ...mock.results,
+    "stats": {
+      ...mock.results.stats,
+      "server": {
+        ...mock.results.stats.server,
+        "wait_time": 150021
+      }
+    }
+  }
+} as TStatusData;
+
+export const mockWithNonOkStatus = {
+  ...mockWithOverloadedWaitTime,
+  status: 'error'
+} as TStatusData;
+
+export const mockWithIssues = {
+  ...mockWithOverloadedWaitTime,
+  server_issue: "Some issues with the hydrostatic equilibrium."
+} as TStatusData;
+
