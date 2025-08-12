@@ -6,10 +6,11 @@ import json from '@eslint/json';
 import css from '@eslint/css';
 import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
+import jest from 'eslint-plugin-jest';
 
 export default tseslint.config(
   {
-    ignores: ['build/**', 'node_modules/**', 'package-lock.json', '.react-router'],
+    ignores: ['coverage/**', 'build/**', 'node_modules/**', 'package-lock.json', '.react-router'],
   },
   tseslint.configs.recommended,
   {
@@ -24,6 +25,13 @@ export default tseslint.config(
     extends: [js.configs.recommended, stylistic.configs.recommended],
     languageOptions: { globals: { ...globals.node } },
   },
+  {
+    files: ['./**/*.test.{ts,tsx,js}'],
+    plugins: { jest },
+    extends: [jest.configs['flat/recommended']],
+    languageOptions: { globals: { ...globals.jest } },
+  },
+
   {
     files: ['./**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     plugins: { js, '@stylistic': stylistic, '@typescript-eslint': tseslint.plugin },
