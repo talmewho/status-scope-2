@@ -14,7 +14,7 @@ function isValid(data: unknown): data is TAllStatusData {
 
 export const getStatusNotifications = (
   notify: (data: TAllStatusData) => void,
-  notifyFailed?: () => void,
+  notifyFailed: () => void,
   dataTimeout?: number,
 ): () => void => {
   function fail() {
