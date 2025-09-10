@@ -11,7 +11,7 @@ To run it locally against a mock endpoint and quick refreshing -
 
 To see it in action -
 
-[https://yodelling-karissa-talmewho-673087a7.koyeb.app/](https://magnetic-leena-talmewhofree-c523c79e.koyeb.app/)
+[https://magnetic-leena-talmewhofree-c523c79e.koyeb.app/](https://magnetic-leena-talmewhofree-c523c79e.koyeb.app/)
 
 <img width="1490" height="1007" alt="image" src="https://github.com/user-attachments/assets/40910f4c-e868-4b0b-860a-2291c0efa706" />
 
